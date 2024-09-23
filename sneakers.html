@@ -5,49 +5,176 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fall Limited Edition Sneakers</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/intasend-inlinejs-sdk@4.0.1/build/intasend-inline.js"></script>
 </head>
+<style>
+    /* Header and Navigation Styles */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        background-color: #2c3e50;
+        color: black;
+    }
+    nav ul {
+        list-style-type: none;
+        display: flex;
+        gap: 20px;
+    }
+    .header a {
+        color: white;
+        text-decoration: none;
+    }
+    nav ul li a:hover {
+        text-decoration: underline;
+    }
+    .product-thumbnails img {
+        cursor: pointer;
+        width: 100px;
+        margin: 5px;
+        border: 2px solid transparent;
+    }
+    .product-thumbnails img.selected {
+        border: 2px solid #ff6700;
+    }
+    /* Style for the Cart */
+    ul#cart-items {
+        list-style-type: none;
+        padding: 0;
+    }.intaSendPayButton {
+        background-color: #ff6700;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .intaSendPayButton:hover {
+        background-color: #e65c00;
+    }
+    
+</style>
 <body>
     <header class="header">
-        
         <div>
             <nav>
-               <ul> 
-                <li><a href="#">Collections</a></li>
-                <li><a href="#">Men</a></li>
-
-                <li>  <a href="#">Women</a></li>
-                <li>  <a href="#">About</a></li>
-                <li>   <a href="#">Contact</a></li>
-               </ul>
-                            </nav>
-        
+                <ul>
+                    <li><a href="collections.html">Collections</a></li>
+                    <li><a href="men.html">Men</a></li>
+                    <li><a href="women.html">Women</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
         </div>
         <div class="user-icon">
-            <a href="#"><img src="icon.jpeg" alt="User Icon"></a>
+            <a href="#"><img src="icon.png" alt="User Icon"></a>
         </div>
     </header>
+
     <div class="container">
         <div class="product-images">
-            <img src="sneakers-main.jpeg" alt="Fall Limited Edition Sneakers">
+            <img id="main-image" src="sneakers-main.jpeg" alt="Fall Limited Edition Sneakers" width="300px">
             <div class="product-thumbnails">
-                <img src="sneaker1.jpeg" alt="sneaker1">
-                <img src="sneaker2.jpeg" alt="sneaker2">
-                <img src="sneaker3.jpeg" alt="sneaker3">
-                <img src="sneaker4.jpeg" alt="sneaker4">
+                <img src="sneaker1.jpeg" alt="Sneaker 1" onclick="selectImage(this, 'Sneaker 1', 20)">
+                <img src="sneaker2.jpeg" alt="Sneaker 2" onclick="selectImage(this, 'Sneaker 2', 22)">
+                <img src="sneaker3.jpeg" alt="Sneaker 3" onclick="selectImage(this, 'Sneaker 3', 18)">
+                <img src="sneaker4.jpeg" alt="Sneaker 4" onclick="selectImage(this, 'Sneaker 4', 25)">
             </div>
         </div>
+        
         <div class="product-details">
             <h4>SNEAKER COMPANY</h4>
-            <h1>Fall Limited Edition Sneakers</h1>
+            <h1 id="product-name">Fall Limited Edition Sneakers</h1>
             <p>These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they'll withstand everything the weather can offer.</p>
-            <div class="product-price">
-                $125.00 <del>$250.00</del>
-            </div>
+            <div class="product-price" id="product-price">$20.00</div>
+            
             <div class="add-to-cart">
-                <input type="number" value="0">
-                <button>Add to cart</button>
+                <input type="number" id="quantity" value="1" min="1">
+                <button onclick="addToCart()">Add to cart</button>
+            </div>
+            
+            <h3>Your Cart</h3>
+            <ul id="cart-items"></ul>
+            <p id="total"></p>
+
+            <div>
+                <button id="pay-now-btn" class="intaSendPayButton" data-amount="0" data-currency="KES" data-email="joe@doe.com" data-first_name="JOE" data-last_name="DOE" data-country="KE">Pay Now</button>
             </div>
         </div>
     </div>
+
+    <script>
+        let cart = [];
+        let selectedProduct = {
+            name: 'Fall Limited Edition Sneakers',
+            price: 20,
+            image: 'sneakers-main.jpeg'
+        };
+
+        // Add to cart functionality
+        function addToCart() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const item = {
+                name: selectedProduct.name,
+                price: selectedProduct.price,
+                quantity: quantity,
+                image: selectedProduct.image
+            };
+
+            const existingItem = cart.find(product => product.name === item.name);
+
+            if (existingItem) {
+                existingItem.quantity += item.quantity;
+            } else {
+                cart.push(item);
+            }
+
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cart-items');
+            const totalDisplay = document.getElementById('total');
+            const payNowButton = document.getElementById('pay-now-btn');
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                cartItems.innerHTML += `
+                    <li>
+                        <img src="${item.image}" width="50px"> 
+                        ${item.name} - $${item.price} x ${item.quantity}
+                    </li>`;
+            });
+
+            totalDisplay.innerText = `Total: $${total}`;
+            payNowButton.setAttribute('data-amount', total * 100); // Update amount in cents
+        }
+
+        function selectImage(img, name, price) {
+            document.getElementById('main-image').src = img.src;
+            document.getElementById('product-name').innerText = name;
+            document.getElementById('product-price').innerText = `$${price}.00`;
+
+            selectedProduct = {
+                name: name,
+                price: price,
+                image: img.src
+            };
+
+            const thumbnails = document.querySelectorAll('.product-thumbnails img');
+            thumbnails.forEach(thumb => thumb.classList.remove('selected'));
+            img.classList.add('selected');
+        }
+
+        new window.IntaSend({
+            publicAPIKey: "ISPubKey_test_fa75a23c-92c8-4082-b1c9-96fc8bb9617e",
+            live: false
+        });
+    </script>
 </body>
 </html>

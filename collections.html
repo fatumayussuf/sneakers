@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sneaker Collections</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Same styles as before */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        header {
+            background-color: #2c3e50;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav ul li {
+            display: inline;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+            color: #f39c12;
+        }
+        .collections-section {
+            padding: 50px 20px;
+            text-align: center;
+        }
+        .collections-section h1 {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .collections-section p {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+        }
+        .collections-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .collection-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .collection-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .collection-card h3 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin: 10px 0;
+        }
+        .collection-card p {
+            font-size: 1rem;
+            color: #7f8c8d;
+            padding: 0 10px 10px;
+        }
+        .collection-card a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #ff6700;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .collection-card a:hover {
+            background-color: #e65c00;
+        }
+        .collection-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        .collection-details {
+            display: none;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .collection-details.active {
+            display: block;
+        }
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        .socials {
+            margin-top: 10px;
+        }
+        .socials a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .socials a:hover {
+            color: #f39c12;
+        }
+        .socials i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header with Navigation -->
+    <header class="header">
+        <div>
+            <nav>
+                <ul>
+                    <li><a href="sneakers.html">Sneakers</a></li>
+                    <!-- <li><a href="collections.html">Collections</a></li> -->
+                    <li><a href="men.html">Men</a></li>
+                    <li><a href="women.html">Women</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="user-icon">
+            <a href="#"><img src="icon.png" alt="User Icon"></a>
+        </div>
+    </header>
+
+    <!-- Collections Section -->
+    <section class="collections-section">
+        <h1>Sneaker Collections</h1>
+        <p>Explore our diverse collections of sneakers, each designed to offer unparalleled comfort, style, and performance.</p>
+        <div class="collections-container">
+            <div class="collection-card" onclick="showDetails('urban')">
+                <img src="urban.jpeg" alt="Urban Collection">
+                <h3>Urban Collection</h3>
+                <p>Featuring sleek designs and cutting-edge technology for the modern city dweller.</p>
+            </div>
+            <div class="collection-card" onclick="showDetails('classic')">
+                <img src="classic.jpeg" alt="Classic Collection">
+                <h3>Classic Collection</h3>
+                <p>Timeless styles with a focus on comfort and durability for everyday wear.</p>
+            </div>
+            <div class="collection-card" onclick="showDetails('sport')">
+                <img src="sports.webp" alt="Sport Collection">
+                <h3>Sport Collection</h3>
+                <p>Engineered for performance, these sneakers are perfect for athletes and fitness enthusiasts.</p>
+            </div>
+        </div>
+        <div id="collection-details" class="collection-details"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Sneaker Company. All rights reserved.</p>
+        <div class="socials">
+            <a href="" target="_blank"><i class="fa fa-facebook"></i>Facebook</a>
+            <a href="" target="_blank"><i class="fa fa-twitter"></i>Twitter</a>
+            <a href="" target="_blank"><i class="fa fa-instagram"></i>Instagram</a>
+            <a href="" target="_blank"><i class="fa fa-linkedin"></i>LinkedIn</a>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for social media icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
+    <!-- JavaScript to Handle Collection Details -->
+    <script>
+        function showDetails(collection) {
+            const details = document.getElementById('collection-details');
+            let content = '';
+
+            switch(collection) {
+                case 'urban':
+                    content = `
+                        <h2>Urban Collection</h2>
+                        <p>Featuring sleek designs and cutting-edge technology for the modern city dweller.</p>
+                        <img src="urban.jpeg" alt="Urban Collection" style="width: 40%; height: auto;">
+                        <p>Our Urban Collection is designed with the latest trends in mind, offering both style and functionality. Perfect for those who want to make a statement in the city.</p>
+                    `;
+                    break;
+                case 'classic':
+                    content = `
+                        <h2>Classic Collection</h2>
+                        <p>Timeless styles with a focus on comfort and durability for everyday wear.</p>
+                        <img src="classic.jpeg" alt="Classic Collection" style="width: 40%; height: auto;">
+                        <p>The Classic Collection combines traditional designs with modern comfort. Ideal for those who appreciate classic aesthetics and long-lasting quality.</p>
+                    `;
+                    break;
+                case 'sport':
+                    content = `
+                        <h2>Sport Collection</h2>
+                        <p>Engineered for performance, these sneakers are perfect for athletes and fitness enthusiasts.</p>
+                        <img src="sports.webp" alt="Sport Collection" style="width: 40%; height: auto;">
+                        <p>Our Sport Collection is built for high performance, offering superior comfort and support for any athletic activity. Suitable for both professional and casual athletes.</p>
+                    `;
+                    break;
+                default:
+                    content = `<p>Select a collection to view details.</p>`;
+            }
+
+            details.innerHTML = content;
+            details.classList.add('active');
+        }
+    </script>
+</body>
+</html>
